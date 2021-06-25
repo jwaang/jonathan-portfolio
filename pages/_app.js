@@ -1,10 +1,7 @@
-import App from "next/app";
-
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../styles/index.scss";
-
-import Navbar from "../components/shared/Navbar";
 import Hero from "../components/shared/Hero";
+import Navbar from "../components/shared/Navbar";
+import "../styles/index.scss";
 
 const MyApp = ({ Component, pageProps }) => {
   const isHomePage = () => Component.name === "Home";

@@ -1,4 +1,4 @@
-const PortfolioCards = ({ portfolio }) => {
+const PortfolioCard = ({ portfolio }) => {
   return (
     <div className="card subtle-shadow no-border">
       <div className="card-body">
@@ -15,4 +15,4 @@ const PortfolioCards = ({ portfolio }) => {
   );
 };
 
-export default PortfolioCards;
+export default PortfolioCard;
