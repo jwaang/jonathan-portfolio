@@ -7,6 +7,8 @@ mongoose.connect(
   config.DB_URI,
   {
     useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
     useCreateIndex: true,
   },
   async () => {

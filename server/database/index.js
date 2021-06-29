@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
+const session = require("express-session");
+const MongoDBStore = require("connect-mongodb-session")(session);
 const config = require("../config/dev");
+
 require("../database/models/portfolio");
+require("../database/models/user");
 
 exports.connect = () => {
   mongoose.connect(
@@ -9,9 +13,18 @@ exports.connect = () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
+      useCreateIndex: true,
     },
     () => {
       console.log("Connected to db");
     }
   );
+};
+
+exports.initSessionStore = () => {
+  const store = new MongoDBStore({
+    uri: config.DB_URI,
+    collection: "portfolioSessions",
+  });
+  return store;
 };
