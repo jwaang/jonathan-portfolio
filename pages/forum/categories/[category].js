@@ -1,6 +1,8 @@
-import BaseLayout from "@/layouts/BaseLayout";
+
+import BaseLayout from '@/layouts/BaseLayout';
 
 const Topics = () => {
+
   return (
     <BaseLayout>
       <section className="section-title">
@@ -42,8 +44,11 @@ const Topics = () => {
           </tbody>
         </table>
       </section>
+
     </BaseLayout>
-  );
-};
+  )
+}
+
+
 
 export default Topics;

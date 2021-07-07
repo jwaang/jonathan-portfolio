@@ -1,8 +1,14 @@
+
+
+
+
 class Portfolio {
+
   constructor(model, user) {
+    // this.Model === Portfolio
     this.Model = model;
     this.user = user;
-    this.writeRights = ["instructor", "admin"];
+    this.writeRights = ['instructor', 'admin'];
   }
 
   getAll() {
@@ -10,7 +16,7 @@ class Portfolio {
   }
 
   getAllByUser() {
-    return this.Model.find({ user: this.user._id }).sort({ startDate: "desc" });
+    return this.Model.find({user: this.user._id}).sort({startDate: 'desc'});
   }
 
   getById(id) {
@@ -19,7 +25,7 @@ class Portfolio {
 
   create(data) {
     if (!this.user || !this.writeRights.includes(this.user.role)) {
-      throw new Error("Not authorized!");
+      throw new Error('Not Authorised!!!');
     }
 
     data.user = this.user;
@@ -27,11 +33,11 @@ class Portfolio {
   }
 
   findAndUpdate(id, data) {
-    return this.Model.findOneAndUpdate({ _id: id }, data, { new: true, runValidators: true });
+    return this.Model.findOneAndUpdate({_id: id}, data, {new: true, runValidators: true});
   }
 
   findAndDelete(id) {
-    return this.Model.findOneAndRemove({ _id: id });
+    return this.Model.findOneAndRemove({_id: id})
   }
 }
 

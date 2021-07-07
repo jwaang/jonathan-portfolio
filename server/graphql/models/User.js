@@ -1,3 +1,6 @@
+
+
+
 class User {
   constructor(model) {
     this.Model = model;
@@ -13,14 +16,14 @@ class User {
 
   async signUp(signUpData) {
     if (signUpData.password !== signUpData.passwordConfirmation) {
-      throw new Error("Password must be the same as confirmation password!");
+      throw new Error('Password must be the same as confirmation password!');
     }
 
     try {
       return await this.Model.create(signUpData);
-    } catch (e) {
+    } catch(e) {
       if (e.code && e.code === 11000) {
-        throw new Error("User with provided email already exists!");
+        throw new Error('User with provided email already exists!');
       }
 
       throw e;
@@ -31,7 +34,7 @@ class User {
     try {
       const user = await ctx.authenticate(signInData);
       return user;
-    } catch (error) {
+    } catch(error) {
       return error;
     }
   }
@@ -40,7 +43,7 @@ class User {
     try {
       ctx.logout();
       return true;
-    } catch (e) {
+    } catch(e) {
       return false;
     }
   }

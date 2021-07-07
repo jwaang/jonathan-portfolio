@@ -1,4 +1,6 @@
-const mongoose = require("mongoose");
+
+
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const portfolioSchema = new Schema({
@@ -10,8 +12,8 @@ const portfolioSchema = new Schema({
   description: { type: String, required: true },
   startDate: { type: Date, required: true },
   endDate: Date,
-  createdAt: { type: Date, default: Date.now },
-  user: { type: Schema.Types.ObjectId, ref: "User" },
-});
+  user: { type: Schema.Types.ObjectId, ref: 'User'},
+  createdAt: { type: Date, default: Date.now }
+})
 
-module.exports = mongoose.model("Portfolio", portfolioSchema);
+module.exports = mongoose.model('Portfolio', portfolioSchema);

@@ -1,6 +1,7 @@
-import BaseLayout from "@/layouts/BaseLayout";
 
+import BaseLayout from '@/layouts/BaseLayout';
 const ForumCategories = () => {
+
   return (
     <BaseLayout>
       <section className="section-title">
@@ -16,13 +17,17 @@ const ForumCategories = () => {
             <div className="fj-category-container">
               <a className="fj-category subtle-shadow no-border" href="#">
                 {
-                  // <div className="category-icon">
-                  //   <img src="images/pen.png" />
-                  // </div>
+                // <div className="category-icon">
+                //   <img src="images/pen.png" />
+                // </div>
                 }
                 <div className="category-information">
-                  <div className="heading gray-90">General Discussion</div>
-                  <div className="description">Just general question</div>
+                  <div className="heading gray-90">
+                    General Discussion
+                  </div>
+                  <div className="description">
+                    Just general question
+                  </div>
                 </div>
               </a>
             </div>
@@ -31,13 +36,17 @@ const ForumCategories = () => {
             <div className="fj-category-container">
               <a className="fj-category subtle-shadow no-border" href="#">
                 {
-                  // <div className="category-icon">
-                  //   <img src="images/pen.png" />
-                  // </div>
+                // <div className="category-icon">
+                //   <img src="images/pen.png" />
+                // </div>
                 }
                 <div className="category-information">
-                  <div className="heading gray-90">Other Discussion</div>
-                  <div className="description">Just general question</div>
+                  <div className="heading gray-90">
+                    Other Discussion
+                  </div>
+                  <div className="description">
+                    Just general question
+                  </div>
                 </div>
               </a>
             </div>
@@ -46,13 +55,17 @@ const ForumCategories = () => {
             <div className="fj-category-container">
               <a className="fj-category subtle-shadow no-border" href="#">
                 {
-                  // <div className="category-icon">
-                  //   <img src="images/pen.png" />
-                  // </div>
+                // <div className="category-icon">
+                //   <img src="images/pen.png" />
+                // </div>
                 }
                 <div className="category-information">
-                  <div className="heading gray-90">Some Discussion</div>
-                  <div className="description">Just general question</div>
+                  <div className="heading gray-90">
+                    Some Discussion
+                  </div>
+                  <div className="description">
+                    Just general question
+                  </div>
                 </div>
               </a>
             </div>
@@ -60,7 +73,9 @@ const ForumCategories = () => {
         </div>
       </section>
     </BaseLayout>
-  );
-};
+  )
+}
+
+
 
 export default ForumCategories;
