@@ -1,13 +1,10 @@
 
+const BaseModel = require('./BaseModel');
 
-
-
-class Portfolio {
+class Portfolio extends BaseModel {
 
   constructor(model, user) {
-    // this.Model === Portfolio
-    this.Model = model;
-    this.user = user;
+    super(model, user);
     this.writeRights = ['instructor', 'admin'];
   }
 
