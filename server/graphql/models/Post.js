@@ -10,13 +10,21 @@ class Post {
     this.user = user;
   }
 
-  getAllByTopic(topic) {
-    return this.Model
+  async getAllByTopic({topic, pageNum = 1, pageSize = 5}) {
+
+    const skips = pageSize * (pageNum - 1);
+
+    const count = await this.Model.countDocuments({topic});
+    const posts = await this.Model
       .find({topic})
       .sort('createdAt')
+      .skip(skips)
+      .limit(pageSize)
       .populate('topic')
       .populate('user')
       .populate({path: 'parent', populate: 'user'})
+
+    return { posts, count };
   }
 
   async create(post) {

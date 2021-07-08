@@ -12,22 +12,26 @@ import { getDataFromTree } from '@apollo/react-ssr';
 import PostItem from '@/components/forum/PostItem';
 import Replier from '@/components/shared/Replier';
 import { toast } from 'react-toastify';
+import AppPagination from '@/components/shared/Pagination';
 
-const useInitialData = () => {
-  const router = useRouter();
-  const { slug } = router.query;
+const useInitialData = (slug, pagination) => {
   const { data: dataT } = useGetTopicBySlug({variables: { slug }});
-  const { data: dataP } = useGetPostsByTopic({variables: { slug }});
+  const { data: dataP, fetchMore } = useGetPostsByTopic(
+    {variables: { slug, ...pagination }, pollInterval: 5000});
   const { data: dataU } = useGetUser();
   const topic = (dataT && dataT.topicBySlug) || {};
-  const posts = (dataP && dataP.postsByTopic) || [];
+  const postData = (dataP && dataP.postsByTopic) || { posts: [], count: 0 };
   const user = (dataU && dataU.user) || null;
-  return { topic, posts, user };
+
+  return { topic, ...postData, user, fetchMore };
 }
 
 
 const PostPage = () => {
-  const { topic, posts, user } = useInitialData();
+  const router = useRouter();
+  const { slug, pageNum = 1, pageSize = 5 } = router.query;
+  const [ pagination, setPagination ] = useState({pageNum: parseInt(pageNum, 10), pageSize: parseInt(pageSize, 10)});
+  const { topic, posts, ...rest } = useInitialData(slug, pagination);
 
   return (
     <BaseLayout>
@@ -41,17 +45,23 @@ const PostPage = () => {
       <Posts
         posts={posts}
         topic={topic}
-        user={user}
+        {...rest}
+        {...pagination}
+        onPageChange={(pageNum, pageSize) => {
+          router.push('/forum/topics/[slug]', `/forum/topics/${slug}?pageNum=${pageNum}&pageSize=${pageSize}`, {shallow: true})
+          setPagination({pageNum, pageSize})
+        }}
       />
     </BaseLayout>
   )
 }
 
-const Posts = ({posts, topic, user}) => {
+const Posts = ({posts, topic, user, fetchMore, ...pagination}) => {
   const pageEnd = useRef();
   const [ createPost, { error }] = useCreatePost();
   const [ isReplierOpen, setReplierOpen ] = useState(false);
   const [ replyTo, setReplyTo ] = useState(null);
+  const { pageSize, count, pageNum } = pagination;
 
   const handleCreatePost = async (reply, resetReplier) => {
     if (replyTo) {
@@ -60,7 +70,22 @@ const Posts = ({posts, topic, user}) => {
 
     reply.topic = topic._id;
     await createPost({variables: reply});
+    let lastPage = Math.ceil(count / pageSize);
+    if (count === 0) { lastPage = 1;}
+
+    lastPage === pageNum && await fetchMore({
+      variables: { pageSize, pageNum: lastPage },
+      updateQuery: (previousResults, { fetchMoreResult }) => {
+        return Object.assign({}, previousResults, {
+          postsByTopic: {...fetchMoreResult.postsByTopic}
+        })
+      }
+    })
     resetReplier();
+    cleanup();
+  }
+
+  const cleanup = () => {
     setReplierOpen(false);
     toast.success('Post has been created!', {autoClose: 2000});
     scrollToBottom();
@@ -72,7 +97,7 @@ const Posts = ({posts, topic, user}) => {
   return (
     <section className="mb-5">
       <div className="fj-post-list">
-        { topic._id &&
+        { topic._id && pagination.pageNum === 1 &&
           <PostItem
             post={topic}
             className="topic-post-lead"/>
@@ -108,6 +133,9 @@ const Posts = ({posts, topic, user}) => {
                 </button>
               </div>
             }
+            <div className="pagination-container ml-auto">
+              <AppPagination {...pagination} />
+            </div>
           </div>
         </div>
       </div>
